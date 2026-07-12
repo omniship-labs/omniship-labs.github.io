@@ -1,0 +1,14 @@
+{
+  "name": "omniship-home",
+  "version": "1.0.0",
+  "description": "omniship.dev — the OmniShip Labs collective home page",
+  "license": "AGPL-3.0",
+  "private": true,
+  "scripts": {
+    "build": "lessc site.less site.css",
+    "serve": "python3 -m http.server 8080"
+  },
+  "devDependencies": {
+    "less": "^4.2.0"
+  }
+}

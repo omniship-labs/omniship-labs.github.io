@@ -1,0 +1,18 @@
+:root {
+  /* 4px base grid */
+  --space-0:  0;
+  --space-1:  0.25rem; /* 4 */
+  --space-2:  0.5rem;  /* 8 */
+  --space-3:  0.75rem; /* 12 */
+  --space-4:  1rem;    /* 16 */
+  --space-5:  1.5rem;  /* 24 */
+  --space-6:  2rem;    /* 32 */
+  --space-7:  2.5rem;  /* 40 */
+  --space-8:  3.5rem;  /* 56 */
+  --space-9:  4.5rem;  /* 72 */
+
+  /* Layout */
+  --container:   1180px;
+  --gutter:      3.5rem; /* 56 — page side padding */
+  --section-y:   4.5rem; /* 72 — vertical rhythm between sections */
+}
