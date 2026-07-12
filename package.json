@@ -5,8 +5,9 @@
   "license": "AGPL-3.0",
   "private": true,
   "scripts": {
-    "build": "lessc site.less site.css",
-    "serve": "python3 -m http.server 8080"
+    "clean": "rm -rf dist",
+    "build": "npm run clean && mkdir -p dist && cp -R src/. dist/ && cp CNAME dist/ && lessc src/styles/site.less dist/styles/site.css && rm dist/styles/site.less",
+    "serve": "npm run build && python3 -m http.server 8080 -d dist"
   },
   "devDependencies": {
     "less": "^4.2.0"
