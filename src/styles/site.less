@@ -465,6 +465,15 @@ a { color: inherit; text-decoration: none; }
   flex-shrink: 0;
 }
 
+// Project marks are self-contained tiles (own background + radius) — render
+// them full-bleed instead of inside the tinted icon chip.
+.project-icon-mark {
+  background: none;
+  border: none;
+
+  img { display: block; width: 100%; height: 100%; }
+}
+
 .project-names { flex: 1; min-width: 0; display: block; }
 
 .project-repo {

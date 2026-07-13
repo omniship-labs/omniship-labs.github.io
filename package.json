@@ -1,12 +1,11 @@
 {
   "name": "omniship-home",
   "version": "1.0.0",
-  "description": "omniship.dev — the OmniShip Labs collective home page",
+  "description": "omniship.dev \u2014 the OmniShip Labs collective home page",
   "license": "AGPL-3.0",
   "private": true,
   "scripts": {
-    "clean": "rm -rf dist",
-    "build": "npm run clean && mkdir -p dist && cp -R src/. dist/ && cp CNAME dist/ && lessc src/styles/site.less dist/styles/site.css && rm dist/styles/site.less",
+    "build": "node scripts/build.mjs",
     "serve": "npm run build && python3 -m http.server 8080 -d dist"
   },
   "devDependencies": {

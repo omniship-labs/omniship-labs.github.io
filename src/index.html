@@ -71,7 +71,7 @@
         <span class="mono">our latest ship</span>
         <button class="codeblock-copy mono" type="button" data-copy="https://get.eyeread.in">copy</button>
       </div>
-      <pre><code># EyeRead — floats your script over any screen
+      <pre><code># eyeread.in — floats your script over any screen
 <a class="codeblock-link" href="https://get.eyeread.in" rel="noopener">open https://get.eyeread.in</a></code></pre>
     </div>
     <div class="alert" role="status">
@@ -89,9 +89,7 @@
 <!-- ============================================================== Stats -->
 <section class="wrap stats-section" aria-label="Collective at a glance">
   <div class="stats">
-    <div class="stat"><div class="stat-value">1</div><div class="stat-label mono">live project</div></div>
-    <div class="stat"><div class="stat-value">100%</div><div class="stat-label mono">AGPL-3.0</div></div>
-    <div class="stat"><div class="stat-value">$0</div><div class="stat-label mono">forever, funded by donations</div></div>
+    <!-- @stats -->
   </div>
 </section>
 
@@ -109,35 +107,7 @@
   </div>
 
   <div class="project-grid">
-
-    <a class="project-card" href="https://get.eyeread.in" rel="noopener" style="--a:#6E56F7">
-      <span class="project-topline" aria-hidden="true"></span>
-      <span class="project-head">
-        <span class="project-icon" aria-hidden="true">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg>
-        </span>
-        <span class="project-names">
-          <span class="project-repo mono">omniship-labs/<strong>eyeread.in</strong></span>
-          <span class="project-cat mono">Teleprompter</span>
-        </span>
-      </span>
-      <span class="project-desc">Open-source teleprompter that floats your script over any screen — invisible to every recorder, with voice tracking built in. Live at get.eyeread.in.</span>
-      <span class="project-meta">
-        <span class="badge badge-neutral mono">AGPL-3.0</span>
-        <span class="lang-chip mono">JavaScript</span>
-        <span class="badge badge-success mono"><span class="badge-dot"></span>live</span>
-      </span>
-    </a>
-
-    <a class="project-card project-card-placeholder" href="https://github.com/omniship-labs" rel="noopener">
-      <span class="project-desc">More on the workbench. Follow the org on GitHub to see what ships next.</span>
-      <span class="project-meta">
-        <span class="all-link mono">github.com/omniship-labs
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </span>
-      </span>
-    </a>
-
+    <!-- @projects -->
   </div>
 </section>
 
@@ -175,11 +145,11 @@
       <h2 class="sponsor-title">Kept alive by people, not paywalls.</h2>
       <p class="sponsor-body">Everything OmniShip makes is free and AGPL-licensed, forever. Donations cover hosting, test hardware, and the maintainers who keep it all shipping.</p>
       <div class="sponsor-actions">
-        <a class="btn btn-primary" href="https://opencollective.com/omniship-labs" rel="noopener">
+        <a class="btn btn-primary" href="{{openCollective}}" rel="noopener">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21s-7.5-4.6-10-9.2C.3 8.4 2 5 5.4 5c2 0 3.3 1 4.6 2.6C11.3 6 12.6 5 14.6 5 18 5 19.7 8.4 22 11.8 19.5 16.4 12 21 12 21z"/></svg>
           Sponsor monthly
         </a>
-        <a class="btn btn-secondary" href="https://opencollective.com/omniship-labs" rel="noopener">One-time gift</a>
+        <a class="btn btn-secondary" href="{{openCollective}}" rel="noopener">One-time gift</a>
       </div>
     </div>
     <div class="sponsor-card">
@@ -215,7 +185,7 @@
     <nav aria-label="Projects">
       <div class="footer-head mono">Projects</div>
       <div class="footer-links">
-        <a href="https://get.eyeread.in" rel="noopener">EyeRead</a>
+        <!-- @footer-projects -->
         <a href="https://github.com/omniship-labs" rel="noopener">All projects</a>
       </div>
     </nav>
@@ -230,6 +200,7 @@
       <div class="footer-head mono">Community</div>
       <div class="footer-links">
         <a href="https://github.com/omniship-labs" rel="noopener">GitHub</a>
+        <a href="/discord/">Discord</a>
       </div>
     </nav>
   </div>
