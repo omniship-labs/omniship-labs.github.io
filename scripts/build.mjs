@@ -4,12 +4,13 @@
  *
  * site.config.json only lists which projects to feature (a manifest URL +
  * whether it's "live") plus homepage-only settings (Discord invite, Open
- * Collective, funding copy). Each project's own metadata (name, description,
- * language, accent, brand mark, license) is fetched at build time from that
- * project's own manifest endpoint — the project repo is the source of truth
- * for its own facts, so nothing here can drift out of sync with it. Stats
- * (live project count, AGPL-3.0 %) are derived from the fetched projects,
- * not hand-typed. Also compiles site.less and writes the /discord redirect.
+ * Collective slug). Each project's own metadata (name, description, language,
+ * accent, brand mark, license) is fetched at build time from that project's
+ * own manifest endpoint — the project repo is the source of truth for its own
+ * facts, so nothing here can drift out of sync with it. All three headline
+ * stats (live project count, AGPL-3.0 %, funds raised) are derived from live
+ * sources at build time, not hand-typed. Also compiles site.less and writes
+ * the /discord redirect.
  */
 import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
@@ -37,6 +38,20 @@ const projects = await Promise.all(
   })
 );
 
+const ocSlug = new URL(config.openCollective).pathname.split('/').filter(Boolean).pop();
+const ocRes = await fetch('https://api.opencollective.com/graphql/v2', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    query: `{ collective(slug: "${ocSlug}") { stats { totalAmountReceived { valueInCents } } } }`,
+  }),
+});
+if (!ocRes.ok) throw new Error(`Open Collective API -> ${ocRes.status}`);
+const { data: ocData } = await ocRes.json();
+const raisedDollars = Math.floor(
+  ocData.collective.stats.totalAmountReceived.valueInCents / 100
+);
+
 const derivedStats = [
   { value: String(projects.filter((p) => p.live).length), label: 'live project' },
   {
@@ -45,7 +60,7 @@ const derivedStats = [
     )}%`,
     label: 'AGPL-3.0',
   },
-  config.fundingStat,
+  { value: `$${raisedDollars.toLocaleString('en-US')}`, label: 'raised via Open Collective' },
 ];
 
 const esc = (s) =>
