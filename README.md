@@ -5,9 +5,10 @@ The [OmniShip Labs](https://omniship.dev) collective home page. A static site bu
 ## Layout
 
 ```
-site.config.json            ← page content: projects, stats, Discord invite
+site.config.json            ← homepage-only settings + which projects to list
 scripts/
-└─ build.mjs                build: renders config into HTML, compiles Less
+└─ build.mjs                build: fetches project manifests, derives stats,
+                             renders config into HTML, compiles Less
 src/
 ├─ index.html               page template (content markers: @stats, @projects, …)
 ├─ styles/site.less         page styles (Less)
@@ -21,12 +22,16 @@ dist/                       build output (gitignored)
 
 Day-to-day changes should not require touching HTML:
 
-- **Add or edit a project** — edit `projects` in [`site.config.json`](site.config.json). Each entry needs `repo`, `name`, `category`, `description`, `language`, `accent`, `href`, and a `mark` URL (the project's own brand mark, served from the project's site — e.g. `https://get.eyeread.in/eyeread-mark.svg`). Set `live: true` to show the live badge.
-- **Update the stats band** — edit `stats`.
+- **Add a project** — add `{ "manifest": "<url>", "live": true|false }` to `projects` in [`site.config.json`](site.config.json). The manifest URL points at a small JSON file the *project itself* publishes (e.g. `https://get.eyeread.in/omniship-project.json`) with `name`, `category`, `description`, `language`, `accent`, `href`, `mark`. The project repo is the source of truth for its own facts — this repo never hand-copies them, so they can't drift out of sync. License (shown as a badge) is looked up live from the GitHub API, not typed in either place.
+- **Stats band** — the "N live projects" and "AGPL-3.0 %" stats are derived at build time from the `projects` list, not hand-typed. Only `fundingStat` (the "$0 forever" line) is static editorial copy, since it isn't a fact about any one project.
 - **Rotate the Discord invite** — edit `discordInvite`; the `/discord` redirect page is generated from it.
 - **Sponsor links** — edit `openCollective`; the sponsor buttons reference it via a `{{openCollective}}` token in the template.
 
-Commit and push; CI rebuilds and deploys.
+Commit and push; CI rebuilds and deploys. The build fetches over the network (project manifests + GitHub license API), so it needs connectivity — this is fine in CI but means `npm run build` won't work fully offline.
+
+### Adding a project to a repo
+
+Each listed project repo should serve its own `omniship-project.json` (see `eyeread.in`'s `site/scripts/prerender.mjs` for the reference implementation) and expose its brand mark at a stable URL. Nothing about the project's identity should live in this repo except the manifest URL and the editorial `live` flag.
 
 ## Development
 

@@ -1,11 +1,15 @@
 #!/usr/bin/env node
 /**
- * build.mjs — assemble dist/ from src/ + src/config.json.
+ * build.mjs — assemble dist/ from src/ + site.config.json.
  *
- * Content that changes over time (projects, stats, the Discord invite) lives
- * in site.config.json at the repo root; this script renders it into the
- * static HTML so the deployed page needs no runtime fetch. Also compiles
- * site.less and writes the /discord redirect page from the configured invite.
+ * site.config.json only lists which projects to feature (a manifest URL +
+ * whether it's "live") plus homepage-only settings (Discord invite, Open
+ * Collective, funding copy). Each project's own metadata (name, description,
+ * language, accent, brand mark, license) is fetched at build time from that
+ * project's own manifest endpoint — the project repo is the source of truth
+ * for its own facts, so nothing here can drift out of sync with it. Stats
+ * (live project count, AGPL-3.0 %) are derived from the fetched projects,
+ * not hand-typed. Also compiles site.less and writes the /discord redirect.
  */
 import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
@@ -17,6 +21,32 @@ const SRC = resolve(ROOT, 'src');
 const DIST = resolve(ROOT, 'dist');
 
 const config = JSON.parse(await readFile(resolve(ROOT, 'site.config.json'), 'utf8'));
+
+const fetchJson = async (url) => {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`${url} -> ${res.status}`);
+  return res.json();
+};
+
+// Merge each project's own manifest with the local (manifest, live) config entry.
+const projects = await Promise.all(
+  config.projects.map(async ({ manifest, live }) => {
+    const p = await fetchJson(manifest);
+    const gh = await fetchJson(`https://api.github.com/repos/omniship-labs/${p.repo}`);
+    return { ...p, live, license: gh.license?.spdx_id ?? 'UNKNOWN' };
+  })
+);
+
+const derivedStats = [
+  { value: String(projects.filter((p) => p.live).length), label: 'live project' },
+  {
+    value: `${Math.round(
+      (100 * projects.filter((p) => p.license === 'AGPL-3.0').length) / projects.length
+    )}%`,
+    label: 'AGPL-3.0',
+  },
+  config.fundingStat,
+];
 
 const esc = (s) =>
   String(s)
@@ -46,7 +76,7 @@ const projectCard = (p) => `
       </span>
       <span class="project-desc">${esc(p.description)}</span>
       <span class="project-meta">
-        <span class="badge badge-neutral mono">AGPL-3.0</span>
+        <span class="badge badge-neutral mono">${esc(p.license)}</span>
         <span class="lang-chip mono">${esc(p.language)}</span>
         ${p.live ? badgeLive : ''}
       </span>
@@ -109,9 +139,9 @@ html = html.replace(/\{\{(\w+)\}\}/g, (m, key) => {
   if (typeof v !== 'string') throw new Error(`unknown config token {{${key}}}`);
   return esc(v);
 });
-html = inject(html, 'stats', config.stats.map(statCell).join(''));
-html = inject(html, 'projects', [...config.projects.map(projectCard), workbenchCard].join('\n'));
-html = inject(html, 'footer-projects', config.projects.map(footerProjectLink).join(''));
+html = inject(html, 'stats', derivedStats.map(statCell).join(''));
+html = inject(html, 'projects', [...projects.map(projectCard), workbenchCard].join('\n'));
+html = inject(html, 'footer-projects', projects.map(footerProjectLink).join(''));
 await writeFile(resolve(DIST, 'index.html'), html);
 
 // /discord redirect from config
@@ -125,5 +155,5 @@ await writeFile(resolve(DIST, 'styles', 'site.css'), css);
 await rm(resolve(DIST, 'styles', 'site.less'));
 
 console.log(
-  `[build] dist/ ready — ${config.projects.length} project(s), ${config.stats.length} stat(s), discord → ${config.discordInvite}`
+  `[build] dist/ ready — ${projects.length} project(s), discord → ${config.discordInvite}`
 );
