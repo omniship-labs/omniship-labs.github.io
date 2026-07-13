@@ -609,106 +609,77 @@ a { color: inherit; text-decoration: none; }
   color: #B9C0CB;
 }
 
-// Sponsor ----------------------------------------------------------------
+// Sponsor — "Where it goes" ledger ------------------------------------------
+// Ported from the design system's DonationAsk (format="ledger"): Beacon is
+// spent once, on the CTA — the budget bars stay muted so nothing competes.
 .sponsor-section { padding-top: 64px; padding-bottom: 72px; }
 
-.sponsor-panel {
-  background: var(--surface-inverse);
+.ledger-card {
+  background: var(--surface-card);
+  border: 1px solid var(--border);
   border-radius: var(--radius-xl);
-  padding: 44px 48px;
-  display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 44px;
-  align-items: center;
+  box-shadow: var(--shadow-card);
+  padding: 40px 44px;
+  max-width: 720px;
+  margin: 0 auto;
 }
 
-.sponsor-title {
-  .display-heading(32px);
-  color: var(--text-on-dark);
-  line-height: 1.12;
+.ledger-title {
+  .display-heading(30px);
   margin: 0 0 12px;
 }
 
-.sponsor-body {
-  font-size: 15px;
+.ledger-body {
+  font-size: 14.5px;
   line-height: var(--leading-normal);
-  color: #B9C0CB;
-  margin: 0 0 22px;
-  max-width: 54ch;
+  color: var(--text-muted);
+  margin: 0 0 28px;
+  max-width: 56ch;
 }
 
-.sponsor-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.ledger-row { margin-bottom: 18px; }
 
-.sponsor-card {
-  background: #13203a;
-  border: 1px solid var(--border-dark);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-card);
-  padding: var(--space-5);
-}
-
-.sponsor-card-label {
-  .mono-label(11px, 0.1em);
-  color: var(--text-faint);
-  margin-bottom: 14px;
-}
-
-.sponsor-amount {
+.ledger-row-head {
   display: flex;
+  justify-content: space-between;
   align-items: baseline;
-  gap: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 7px;
 }
 
-.sponsor-amount-value {
-  font-family: var(--font-display);
-  font-weight: var(--fw-semibold);
-  font-size: 34px;
-  color: var(--text-on-dark);
-}
+.ledger-row-label { font-size: 13.5px; color: var(--text-body); }
+.ledger-row-pct { font-size: 12px; color: var(--text-faint); }
 
-.sponsor-amount-period { font-size: 13px; color: var(--text-faint); }
-
-// Switch -------------------------------------------------------------------
-.switch-row {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-}
-
-.switch {
-  position: relative;
-  width: 42px;
-  height: 24px;
-  flex-shrink: 0;
+.ledger-bar-track {
+  height: 6px;
   border-radius: var(--radius-pill);
-  border: none;
-  padding: 0;
+  background: var(--surface-sunken);
+  overflow: hidden;
+}
+
+.ledger-bar-fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
   background: var(--border-strong);
-  cursor: pointer;
-  transition: background var(--dur-base) var(--ease-out);
-
-  &[aria-checked="true"] {
-    background: var(--accent);
-
-    .switch-knob { left: 21px; }
-  }
 }
 
-.switch-knob {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 1px 3px rgba(14, 23, 38, 0.3);
-  transition: left var(--dur-base) var(--ease-out);
+.ledger-foot {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
 }
 
-.switch-label { font-size: 0.9375rem; color: #B9C0CB; }
+.ledger-foot-stat {
+  font-size: 12px;
+  color: var(--text-faint);
+
+  strong { color: var(--text-strong); font-weight: var(--fw-semibold); }
+}
+
+.ledger-cta { margin-left: auto; }
 
 // Footer -------------------------------------------------------------------
 .footer { border-top: 1px solid var(--border); }

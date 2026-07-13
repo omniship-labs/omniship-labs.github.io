@@ -27,12 +27,3 @@
     });
   });
 })();
-
-// Backer switch in the sponsor card.
-(function () {
-  var sw = document.getElementById('backer-switch');
-  if (!sw) return;
-  sw.addEventListener('click', function () {
-    sw.setAttribute('aria-checked', sw.getAttribute('aria-checked') !== 'true');
-  });
-})();

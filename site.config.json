@@ -2,7 +2,11 @@
   "openCollective": "https://opencollective.com/omniship",
   "discordInvite": "https://discord.gg/7qSEUr77df",
   "github": "https://github.com/omniship-labs",
-  "fundingStat": { "value": "$0", "label": "forever, funded by donations" },
+  "fundingLedger": [
+    { "label": "Hosting, CI & infrastructure", "pct": 42 },
+    { "label": "Maintainer time — issues, releases", "pct": 33 },
+    { "label": "Test hardware & tooling", "pct": 25 }
+  ],
   "projects": [
     { "manifest": "https://get.eyeread.in/omniship-project.json", "live": true }
   ]
