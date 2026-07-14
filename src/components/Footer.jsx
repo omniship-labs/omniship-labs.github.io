@@ -1,3 +1,6 @@
+import glyph from '@omniship-labs/design-beacon/assets/omniship-glyph.svg';
+import mark from '@omniship-labs/design-beacon/assets/omniship-mark.svg';
+
 export function Footer({ projects, github }) {
   return (
     <footer className="footer">
@@ -5,8 +8,8 @@ export function Footer({ projects, github }) {
         <div>
           <div className="brand footer-brand">
             <span className="brand-avatar brand-avatar-sm" aria-hidden="true">
-              <img className="on-light" src="/vendor/omniship-ui/assets/omniship-glyph.svg" alt="" />
-              <img className="on-dark" src="/vendor/omniship-ui/assets/omniship-mark.svg" alt="" />
+              <img className="on-light" src={glyph} alt="" />
+              <img className="on-dark" src={mark} alt="" />
             </span>
             <span className="wordmark wordmark-sm">OmniShip<span className="wordmark-labs"> Labs</span></span>
           </div>
@@ -26,7 +29,7 @@ export function Footer({ projects, github }) {
         <nav aria-label="Build">
           <div className="footer-head mono">Build</div>
           <div className="footer-links">
-            <a href="https://github.com/omniship-labs/omniship-labs.github.io/tree/main/src/vendor/omniship-ui" rel="noopener">Design system</a>
+            <a href="https://github.com/omniship-labs/design-beacon" rel="noopener">Design system</a>
             <a href="https://github.com/omniship-labs/omniship-labs.github.io" rel="noopener">Source of this site</a>
           </div>
         </nav>

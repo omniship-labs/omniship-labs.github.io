@@ -1,11 +1,14 @@
+import glyph from '@omniship-labs/design-beacon/assets/omniship-glyph.svg';
+import mark from '@omniship-labs/design-beacon/assets/omniship-mark.svg';
+
 export function Nav() {
   return (
     <header className="nav">
       <div className="wrap nav-inner">
         <a className="brand" href="/">
           <span className="brand-avatar" aria-hidden="true">
-            <img className="on-light" src="/vendor/omniship-ui/assets/omniship-glyph.svg" alt="" />
-            <img className="on-dark" src="/vendor/omniship-ui/assets/omniship-mark.svg" alt="" />
+            <img className="on-light" src={glyph} alt="" />
+            <img className="on-dark" src={mark} alt="" />
           </span>
           <span className="wordmark">OmniShip<span className="wordmark-labs"> Labs</span></span>
         </a>

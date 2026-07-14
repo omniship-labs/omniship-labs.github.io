@@ -11,6 +11,7 @@
     "serve": "npm run build && python3 -m http.server 8080 -d dist"
   },
   "dependencies": {
+    "@omniship-labs/design-beacon": "^0.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

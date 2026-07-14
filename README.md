@@ -21,7 +21,8 @@ src/
 └─ styles/site.less         page styles (Less)
 public/
 ├─ js/site.js                theme toggle, copy button (vanilla, post-hydration)
-└─ vendor/omniship-ui/       vendored design system: tokens, entry CSS, brand assets
+└─ vendor/omniship-ui/       favicon only (everything else comes from the
+                             @omniship-labs/design-beacon package)
 .github/workflows/deploy.yml  CI: build → GitHub Pages (custom domain via CNAME)
 dist/, dist-ssr/             build output (gitignored; dist-ssr is deleted after build)
 ```
@@ -32,7 +33,7 @@ Day-to-day changes should not require touching components:
 
 - **Add a project** — add `{ "manifest": "<url>", "live": true|false }` to `projects` in [`site.config.json`](site.config.json). The manifest URL points at a small JSON file the *project itself* publishes (e.g. `https://get.eyeread.in/omniship-project.json`) with `name`, `category`, `description`, `language`, `accent`, `href`, `mark`. The project repo is the source of truth for its own facts — this repo never hand-copies them, so they can't drift out of sync. License (shown as a badge) is looked up live from the GitHub API, not typed in either place.
 - **Stats band** — "N live projects", "AGPL-3.0 %", and "$ raised via Open Collective" are all derived at build time (from the `projects` list and the Open Collective API) — never hand-typed.
-- **Funding ledger** — the "Where it goes" section on the sponsor panel (`components/brand/DonationAsk`, ledger format, in the design system) shows a live raised/backer count from Open Collective plus a budget breakdown. The breakdown percentages aren't exposed by the Open Collective API, so they're editorial: edit `fundingLedger` in `site.config.json`.
+- **Funding ledger** — the "Where it goes" section on the sponsor panel (`SponsorLedger.jsx`, styled to match `design-beacon`'s `DonationAsk` ledger format) shows a live raised/backer count from Open Collective plus a budget breakdown. The breakdown percentages aren't exposed by the Open Collective API, so they're editorial: edit `fundingLedger` in `site.config.json`.
 - **Rotate the Discord invite** — edit `discordInvite`; the `/discord` redirect page is generated from it.
 - **Sponsor links** — edit `openCollective`.
 
@@ -44,8 +45,11 @@ Each listed project repo should serve its own `omniship-project.json` (see `eyer
 
 ## Development
 
+Installing `@omniship-labs/design-beacon` requires a GitHub Packages–authenticated `npm` — see [design-beacon's README](https://github.com/omniship-labs/design-beacon#install). Locally:
+
 ```sh
-npm install     # once (Node version in .nvmrc)
+NODE_AUTH_TOKEN=$(gh auth token) npm install   # once (needs read:packages scope:
+                                                #  gh auth refresh -s read:packages)
 npm run dev     # Vite dev server with HMR (client-only, no prerendered data)
 npm run build   # data fetch + client build + SSR build + prerender → dist/
 npm run serve   # build, then serve dist/ at http://localhost:8080
@@ -53,8 +57,8 @@ npm run serve   # build, then serve dist/ at http://localhost:8080
 
 ## Conventions
 
-- Style with the design system's semantic tokens (`--accent`, `--surface-*`, `--text-*`, radii/shadow/motion variables). Never hardcode colours or fonts outside `public/vendor/omniship-ui/`.
-- `public/vendor/omniship-ui/` is a vendored copy of the [OmniShip Labs design system](https://github.com/omniship-labs/omniship-labs.github.io/tree/main/public/vendor/omniship-ui); update it from the design-system source rather than editing in place.
+- Style with the design system's semantic tokens (`--accent`, `--surface-*`, `--text-*`, radii/shadow/motion variables) and components, both from [`@omniship-labs/design-beacon`](https://github.com/omniship-labs/design-beacon) — the design system's own published package. Never hardcode colours or fonts, and don't vendor copies of tokens/components locally; `public/vendor/omniship-ui/` now holds only the favicon, which the package doesn't ship.
+- To pick up a design-system update: bump the version in `package.json` and `npm install`. To change the design system itself, edit `design-beacon`'s source (synced from the Claude Design project) and cut a release there.
 - Beacon (`--accent`) is a signal, not a fill — roughly one bright moment per view. The funding ledger's budget bars are deliberately muted so the "Become a backer" button stays the only accent moment on the panel.
 - Copy is sentence case, plain over clever, no exclamation marks. Every project ships as **AGPL-3.0**.
 

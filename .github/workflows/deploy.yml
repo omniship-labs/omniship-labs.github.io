@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  packages: read
   pages: write
   id-token: write
 
@@ -26,7 +27,11 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: npm
+          registry-url: https://npm.pkg.github.com
+          scope: "@omniship-labs"
       - run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: npm run build
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
